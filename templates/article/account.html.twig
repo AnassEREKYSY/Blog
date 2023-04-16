@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+{% form_theme formAccount 'bootstrap_4_layout.html.twig' %}
+{% block body%}
+    <div class="m-3 p-2">
+        <center>
+            <h1>Profil de l'utilisateur</h1>
+            <hr style="width: 420px" >
+        </center>
+        {{ form_start(formAccount) }}
+        {{ form_row(formAccount.nom , {'attr':{'placeholder':"Titre de l'article"}}) }}
+        {{ form_row(formAccount.prenom , {'attr':{'placeholder':"Sous titre de l'article"}}) }}
+        <button type="submit" class="btn btn-primary mt-3">Sauvegarder</button>
+        {{ form_end(formAccount) }}
+    </div>
+{% endblock %}

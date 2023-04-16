@@ -1,0 +1,37 @@
+{% form_theme formLogin 'bootstrap_4_layout.html.twig' %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://bootswatch.com/5/flatly/bootstrap.min.css">
+    <link rel="stylesheet" href="article.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>Loging</title>
+</head>
+<body>
+{% if message %}
+    <h6 class="text-danger">{{ message }}</h6>
+{% endif %}
+    <div class="container m-5 p-5 boder border-3">
+        <div class="text-center">
+            <h1 class="fw-bolder">Connexion</h1>
+            <center><hr style="width: 350px" ></center>
+        </div>
+        <div class="mb-2 text-end">
+            <button type="submit" class="text-end btn btn-primary"><a href="{{ path('app_article_register')}}">Inscription</a> </button>
+        </div>
+        {{ form_start(formLogin) }}
+        <div class="mb-4 p-2">
+            {{ form_row(formLogin.email , {'attr':{'placeholder':"Taper votre email"}}) }}
+        </div>
+        <div class="mb-4 p-2">
+            {{ form_row(formLogin.mdp , {'attr':{'placeholder':"Taper votre mot de passe"}}) }}
+        </div>
+        <div class="mb-4 p-2">
+            <button type="submit" class="btn btn-primary">Connexion</button>
+        </div>
+
+        {{ form_end(formLogin) }}
+    </div>
+</body>
+</html>

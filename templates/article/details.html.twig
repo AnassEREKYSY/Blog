@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <article class="container my-4 text-center">
+        <h2 class=" py-2 text-capitalize">{{ article.titre }}</h2>
+        <p class=" py-1 text-capitalize">Ecrit par :{{ prenomAuteur }} {{ nomAuteur }}</p>
+        <div class="content  py-3 ">
+            <img src="{{ article.image }}" alt="" class="my-1">
+            <p class=" py-1 text-capitalize">{{ article.soustitre }}</p>
+            <p class=" py-3 text-capitalize">{{ article.contenu }}</p>
+        </div>
+    </article>
+    <div class="row">
+        <span class="col-md-11 py-2 fs-4 text-bold">Commentaire : </span>
+        <span class="col">
+            <a href="{{ path('app_article_comment',{'id':article.id })}}" class="btn btn-dark ">
+                <i class="fa-regular fa-comment"></i>
+            </a>
+        </span>
+    </div>
+
+    {% if commentaires==null %}
+        <h4 class=" py-2 text-center">Aucun commentaire !! </h4>
+    {% else %}
+        <table class="table text-center ">
+            {% for comment in commentaires %}
+                <tr class="grid">
+                    <td class="col-md-2">{{ comment.IdUser.nom}} {{ comment.IdUser.prenom}}</td>
+                    <td class="col-md-1">{{ comment.createdAt | date('d/m/y') }}</td>
+                    <td class="col-md-9">{{ comment.contenu }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+
+{% endblock %}

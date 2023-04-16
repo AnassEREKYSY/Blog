@@ -1,0 +1,42 @@
+{% form_theme formInscription 'bootstrap_4_layout.html.twig' %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://bootswatch.com/5/flatly/bootstrap.min.css">
+    <link rel="stylesheet" href="article.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>Loging</title>
+</head>
+<body>
+<div class="container m-5 p-4 boder border-3" s>
+    {% if message!=null %}
+        <div>
+            <h6 class="fw-bolder text-danger">{{ message }}</h6>
+        </div>
+    {% endif %}
+    <div class="text-center">
+        <h1 class="fw-bolder">Inscription</h1>
+        <center><hr style="width: 350px" ></center>
+    </div>
+    {{ form_start(formInscription) }}
+    <div class="mb-1 p-2">
+        {{ form_row(formInscription.nom , {'attr':{'placeholder':"Taper votre nom"}}) }}
+    </div>
+    <div class="mb-1 p-2">
+        {{ form_row(formInscription.prenom , {'attr':{'placeholder':"Taper votre prenom"}}) }}
+    </div>
+    <div class="mb-1 p-2">
+        {{ form_row(formInscription.email , {'attr':{'placeholder':"Taper votre email"}}) }}
+    </div>
+    <div class="mb-1 p-2">
+        {{ form_row(formInscription.mdp , {'attr':{'placeholder':"Taper votre mot de passe"}}) }}
+    </div>
+    <div class="mb-1 p-2">
+        <button type="submit" class="btn btn-primary">Enregistrer</button>
+    </div>
+
+    {{ form_end(formInscription) }}
+</div>
+</body>
+</html>

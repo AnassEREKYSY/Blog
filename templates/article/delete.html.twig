@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+{% block body%}
+    {% if id!=0 %}
+     <div class="container text-center mt-5">
+         <h1>Est-ce que vous êtes sure</h1>
+        <button class="btn btn-danger mt-5"><a href="{{ path('app_article_delete',{'id':id})}}">Supprimer</a></button>
+         <button class="btn btn-outline-secondary mt-5"><a href="{{ path('app_article')}}">Annuler</a></button>
+     </div>
+    {% endif %}
+{% endblock %}
