@@ -8,8 +8,8 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
         {% block stylesheets %}{% endblock %}
     </head>
-    <body>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <body id="body">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light shadow p-2 m-5 bg-body rounded  ">
             <div class="container-fluid">
                 <a class="navbar-brand fw-bolder" href="{{ path('app_article') }}">Blog</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
@@ -25,7 +25,7 @@
                                 <a class="nav-link" href="{{ path('app_article_account',{'id':app.session.get('idUser')}) }}"><i class="fa-solid fa-user"></i></a>
                             </li>
                         </ul>
-                        <ul class="navbar-nav me-auto text-lg-left">
+                        <ul class="navbar-nav mx-4 text-lg-left">
                             <li class="nav-item fw-bolder">
                                 <a class="nav-link" href="{{ path('app_article_logout',{'id':app.session.get('idUser')}) }}"><i class="fa-sharp fa-solid fa-right-from-bracket"></i></a>
                             </li>
@@ -41,8 +41,10 @@
                             </li>
                         </ul>
                         {% endif %}
+                        <button class="btn btn-outline-success" type="button" ">
+                            <a class="nav-link" href="{{ path('app_article_searche') }}">Searche</a>
+                        </button>
 
-                </div>
             </div>
         </nav>
         <div class="container">
@@ -50,4 +52,5 @@
         </div>
         {% block javascripts %}{% endblock %}
     </body>
+
 </html>

@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+{% form_theme formSearche 'bootstrap_4_layout.html.twig' %}
+{% block body%}
+    <div class="m-3 p-2">
+        <h1>Recherche d'un article</h1>
+        <hr>
+        {{ form_start(formSearche) }}
+        <div class="container">
+            {{ form_row(formSearche.chercher , {'attr':{'placeholder':"Chercher un article"}}) }}
+            <button type="submit" class="btn btn-success mt-3">Searche</button>
+            {{ form_end(formSearche) }}
+        </div>
+    </div>
+    {% if articleResult!=null %}
+        <table class="table table-bordered container m-2 mt-3 text-center table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Auteur</th>
+                    <th scope="col">Titre</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for article in articleResult %}
+                    <tr >
+                        <th scope="row" class="col-1">{{ article.id }}</th>
+                        <td class="col-3">{{ article.idUser.prenom }} {{ article.idUser.nom }}</td>
+                        <td class="col-6">{{ article.titre }}</td>
+                        <th scope="col-1">
+                            <a href="{{ path('app_article_details',{'id':article.id }) }}" class="col btn btn-dark mx-2 text-start">
+                                <i class="fas fa-plus"></i>
+                            </a>
+                        </th>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else%}
+        <center><h3>Rien n'est trouvé</h3></center>
+    {% endif %}
+
+{% endblock %}

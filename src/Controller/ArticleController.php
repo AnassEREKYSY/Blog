@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\Article;
 use App\Entity\Commentaire;
 use App\Entity\User;
-use Doctrine\DBAL\Types\TextType;
 use App\Repository\ArticleRepository;
 use App\Repository\CommentaireRepository;
 use App\Repository\UserRepository;
@@ -13,6 +12,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -162,6 +162,38 @@ class ArticleController extends AbstractController
         return $this->render('article/inscription.html.twig', ['formInscription'=>$form->createView() , 'message'=>$message]);
     }
 
+    #[Route('/article/searche', name: 'app_article_searche')]
+    public function searche( Request $request, ArticleRepository $articleRepository,
+                            EntityManagerInterface $entityManager): Response
+    {
+        $form = $this->createFormBuilder()
+            ->add('chercher', TextType::class)
+            ->getForm();
+        $form->handleRequest($request);
+        $articlesResult=null;
+        $qb = $entityManager->createQueryBuilder();
+        if ($form->isSubmitted() && $form->isValid()) {
+            //$articlesResult=$articleRepository->findBy(['LOWER(titre)'=> 'LOWER(%'.$form->get('chercher')->getData().'%)']);
+            $qb->select('a')
+                ->from(Article::class, 'a')
+                ->leftJoin(User::class, 'u')
+                ->where($qb->expr()->like('LOWER(a.titre)', ':searchTerm1'))
+                ->orWhere($qb->expr()->orX(
+                    $qb->expr()->like('LOWER(u.nom)', ':searchTerm2'),
+                    $qb->expr()->like('LOWER(u.prenom)', ':searchTerm2')
+                ))
+                ->setParameter('searchTerm1', '%' . strtolower($form->get('chercher')->getData()) . '%')
+                ->setParameter('searchTerm2', '%' . strtolower($form->get('chercher')->getData()) . '%');
+            $articlesResult=$qb->getQuery()->getResult();
+            if($articlesResult!=null){
+                return $this->render('article/searche.html.twig', ['formSearche'=>$form->createView(),'articleResult'=>$articlesResult]);
+            }else{
+                return $this->render('article/searche.html.twig', ['formSearche'=>$form->createView(),'articleResult'=>$articlesResult]);
+            }
+        }
+        return $this->render('article/searche.html.twig', ['formSearche'=>$form->createView(),'articleResult'=>$articlesResult]);
+    }
+
     #[Route('/article/{id}', name: 'app_article_details')]
     public function details(Article $article,Commentaire $commentaire=null,
                             CommentaireRepository $commentaireRepository,
@@ -173,6 +205,7 @@ class ArticleController extends AbstractController
         $userPrenom=$user->getPrenom();
         return $this->render('article/details.html.twig',['article'=>$article , 'commentaires'=>$commentaire, "nomAuteur"=>$userNom,"prenomAuteur"=>$userPrenom]);
     }
+
 
     #[Route('/article/account/{id}', name: 'app_article_account')]
     public function account(User $user,SessionInterface $session, Request $request,
